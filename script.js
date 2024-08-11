@@ -5,18 +5,42 @@ const holidays = [
 ];
 // summer 
 school_start = new Date("September 4, 2024")
-today = new Date(Date.now())
+//today = new Date(Date.now())
+today = new Date("September 4, 2024")
 summer_days = Math.ceil(((school_start - today) / 86400000))
 // school
 school_end = new Date("June 25, 2025")
 days_until_end = Math.ceil(((school_end - today) / 86400000))
 
+closest_holidays = holidays.sort(function (a, b) {  return a - b;  });
+let has_one = false;
+let holiday_one = '';
+let hoilday_two = '';
+console.log(holiday_one)
+
+for (h of closest_holidays) {
+  if (today > h) {
+    console.log('past')
+  } else if (has_one == false) {
+    holiday_one = h.toDateString();
+    has_one = true;
+  } else {
+    holiday_two = h.toDateString();
+    break;
+  }
+}
+
 if (summer_days > 0) {
   document.getElementById('days').innerText = summer_days;
   document.getElementById('body').style.backgroundColor = "#FFC05A";
-  document.getElementById('description').innerHTML = "days until summer ends.<br>based off Ontario High School Calendar"
+  document.getElementById('description').innerHTML = "<div id='time_measurement'>days</div> until summer ends.<br>based off Ontario High School Calendar."
+  document.getElementById('event_two').remove();
+  document.getElementById('event_one').innerText = 'september 4th, 2024';
 } else {
   document.getElementById('days').innerText = days_until_end;
   document.getElementById('body').style.backgroundColor = "#7FA382";
-  document.getElementById('description').innerHTML = "days until school ends.<br>based off Ontario High School Calendar"
+  document.getElementById('description').innerHTML = "<div id='time_measurement'>days</div> until school ends.<br>based off Ontario High School Calendar."
+  document.getElementById('upcoming').innerHTML = 'upcoming holidays';
+  document.getElementById('event_one').innerText = holiday_one;
+  document.getElementById('event_two').innerText = holiday_two;
 }
