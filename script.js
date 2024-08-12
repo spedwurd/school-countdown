@@ -44,7 +44,7 @@ summer_months = Math.ceil(((school_start - today) / (86400000*30)))
 summer_hours = Math.ceil(((school_start - today) / (86400000/60)))
 
 summer_time = [summer_days, summer_weeks, summer_months, summer_hours]
-time_text = ['days', 'weeks', 'months', 'hours']
+time_text = ['day(s)', 'week(s)', 'month(s)', 'hour(s)']
 
 
 // school
@@ -82,26 +82,43 @@ for (h of closest_holidays) {
 if (summer_days > 0) {
   document.getElementById('days').innerText = summer_days;
   document.getElementById('body').style.backgroundColor = "#FFC05A";
-  document.getElementById('description').innerHTML = "<div id='time_measurement'>days</div> until summer ends.<br>based off Ontario High School Calendar."
+  document.getElementById('description').innerHTML = "<div id='time_measurement'>day(s)</div> until summer ends.<br>based off Ontario High School Calendar."
   document.getElementById('event_two').remove();
   document.getElementById('event_one').innerText = 'september 4th, 2024';
 } else {
   document.getElementById('days').innerText = days_until_end;
   document.getElementById('body').style.backgroundColor = "#7FA382";
-  document.getElementById('description').innerHTML = "<div id='time_measurement'>days</div> until school ends.<br>based off Ontario High School Calendar."
+  document.getElementById('description').innerHTML = "<div id='time_measurement'>day(s)</div> until school ends.<br>based off Ontario High School Calendar."
   document.getElementById('upcoming').innerHTML = 'upcoming holidays';
   document.getElementById('event_one').innerText = holiday_one;
   document.getElementById('event_two').innerText = holiday_two;
 }
 
 timeChange = 1;
-function changeTime() {
+async function changeTime() {
   document.getElementById('time_measurement').innerText = time_text[timeChange]
   if (summer_days > 0) {
     document.getElementById('days').innerText = summer_time[timeChange]
   } else {
     document.getElementById('days').innerText = school_time[timeChange]
   }
+  document.getElementById('days').style.animation = "fade ease 0.5s";
+  await new Promise(r => setTimeout(r, 500));
+  document.getElementById('days').style.animation = "";
   timeChange += 1;
   timeChange %= 4;
+}
+
+function cursorMoved(event) { // aligns custom cursors
+  let x = event.clientX;
+  let y = event.clientY;
+
+  const cursorInfo = document.getElementById('cursor');
+  cursorInfo.style.top = y-6 + 'px';
+  cursorInfo.style.left = x-4 + 'px';
+
+  const cursorOutlineInfo = document.getElementById('cursor_outline');
+  cursorOutlineInfo.style.top = y-15 + 'px';
+  cursorOutlineInfo.style.left = x-11.5 + 'px'
+  cursorOutlineInfo.style.transform = `translate(${clientX}px, ${clientY}px)`;
 }

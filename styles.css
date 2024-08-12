@@ -1,12 +1,44 @@
-p, div {
+@keyframes fade {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+body {
     text-align: center;
+    cursor: none;
+}
+
+p, div {
     font-family: "Helvetica Neue";
     font-size: 50px;
-    margin: 0;
+    margin: 0 auto;
 }
 
 .days {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
     font-size: 250px;
+}
+
+.days::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background-color: lightblue;
+    transition: left 0.5s ease;
+    z-index: -1;
+}
+
+.days:hover::before {
+    left: 0;
 }
 
 .event_one, .event_two {
@@ -18,11 +50,30 @@ p, div {
     border-radius: 50px;
     justify-content: center;
     align-items: center;
-    font-size: 50px;
+    font-size: 2.5vw;
 }
 
 .divider {
     width: 80%;
     margin: 1vh auto;
     border-bottom: 3px solid white;
+}
+
+#cursor_outline {
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px hotpink solid;
+    transition: all 200ms ease-out;
+    pointer-events: none;
+}
+
+#cursor {
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: rgba(255, 10, 71, 0.5);
+    pointer-events: none;
 }
