@@ -7,6 +7,15 @@
     }
 }
 
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 body {
     text-align: center;
     cursor: none;
@@ -51,6 +60,13 @@ p, div {
     justify-content: center;
     align-items: center;
     font-size: 2.5vw;
+    transition: background-color ease 0.25s;
+    border: 2px solid black;
+}
+
+.event_one:hover, .event_two:hover {
+    background-color: #DB8080;
+    transition: background-color ease 0.25s;
 }
 
 .divider {
@@ -76,4 +92,14 @@ p, div {
     border-radius: 50%;
     background-color: rgba(255, 10, 71, 0.5);
     pointer-events: none;
+}
+
+.trail {
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: rgba(255, 10, 71, 0.5);
+    pointer-events: none;
+    animation: fadeOut ease 0.5s;
 }

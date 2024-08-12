@@ -38,6 +38,7 @@ holidays.set(new Date('2025-05-19'), 'Victoria Day')
 // summer 
 school_start = new Date("September 4, 2024")
 today = new Date(Date.now())
+//today = school_start // i used this as a testing piece to see the compatibility with the school page
 summer_days = Math.ceil(((school_start - today) / 86400000))
 summer_weeks = Math.ceil(((school_start - today) / (86400000*7)))
 summer_months = Math.ceil(((school_start - today) / (86400000*30)))
@@ -59,14 +60,15 @@ school_time = [days_until_end, weeks_until_end, months_until_end, hours_until_en
 console.log(weeks_until_end)
 console.log(summer_weeks)
 
-closest_holidays = Array.from(holidays.keys()).sort(function (a, b) {  return a - b;  });
+closest_holidays = Array.from(holidays.keys()).sort(function (a, b) {  return a - b;  }); // sorts holiday dates from closest to farthest
+
 let has_one = false;
 let holiday_one = '';
 let hoilday_two = '';
 console.log(holiday_one)
 
-for (h of closest_holidays) {
-  if (today > h) {
+for (h of closest_holidays) { // really terrible code
+  if (today > h) { // if holiday has past
     console.log('past')
   } else if (has_one == false) {
     holiday_one = h.toDateString();
@@ -79,22 +81,26 @@ for (h of closest_holidays) {
   }
 }
 
-if (summer_days > 0) {
+if (summer_days > 0) { // if its summer
   document.getElementById('days').innerText = summer_days;
   document.getElementById('body').style.backgroundColor = "#FFC05A";
   document.getElementById('description').innerHTML = "<div id='time_measurement'>day(s)</div> until summer ends.<br>based off Ontario High School Calendar."
   document.getElementById('event_two').remove();
   document.getElementById('event_one').innerText = 'september 4th, 2024';
-} else {
+  document.getElementById('title').innerText = 'summer countdown';
+  document.getElementById('favicon').setAttribute('href', '/assets/summer.ico')
+} else { // if its school
   document.getElementById('days').innerText = days_until_end;
   document.getElementById('body').style.backgroundColor = "#7FA382";
   document.getElementById('description').innerHTML = "<div id='time_measurement'>day(s)</div> until school ends.<br>based off Ontario High School Calendar."
   document.getElementById('upcoming').innerHTML = 'upcoming holidays';
   document.getElementById('event_one').innerText = holiday_one;
   document.getElementById('event_two').innerText = holiday_two;
+  document.getElementById('favicon').setAttribute('href', '/assets/school.ico')
 }
 
-timeChange = 1;
+timeChange = 1; // rotation through the time classification
+
 async function changeTime() {
   document.getElementById('time_measurement').innerText = time_text[timeChange]
   if (summer_days > 0) {
@@ -109,9 +115,22 @@ async function changeTime() {
   timeChange %= 4;
 }
 
-function cursorMoved(event) { // aligns custom cursors
-  let x = event.clientX;
-  let y = event.clientY;
+cursorMove = 0;
+
+async function cursorMoved(event) { // aligns custom cursors
+  cursorMove += 1;
+  let x = event.pageX;
+  let y = event.pageY;
+  if (cursorMove%2==0) { // every second time cursor moves it adds trail to lessen the clutter
+    let trail = document.createElement('div');
+    trail.classList.add('trail');
+    trail.style.left = `${x}px`
+    trail.style.top = `${y}px`
+    document.body.appendChild(trail);
+    trail.addEventListener('animationend', () => {
+      trail.remove();
+    })
+  }
 
   const cursorInfo = document.getElementById('cursor');
   cursorInfo.style.top = y-6 + 'px';
@@ -120,5 +139,4 @@ function cursorMoved(event) { // aligns custom cursors
   const cursorOutlineInfo = document.getElementById('cursor_outline');
   cursorOutlineInfo.style.top = y-15 + 'px';
   cursorOutlineInfo.style.left = x-11.5 + 'px'
-  cursorOutlineInfo.style.transform = `translate(${clientX}px, ${clientY}px)`;
 }
