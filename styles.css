@@ -9,7 +9,7 @@ p, div {
     font-size: 250px;
 }
 
-.event_one {
+.event_one, .event_two {
     display: flex;
     margin: 20px auto;
     width: 40vw;
@@ -18,30 +18,11 @@ p, div {
     border-radius: 50px;
     justify-content: center;
     align-items: center;
-}
-
-.event_two {
-    display: flex;
-    margin: 20px auto;
-    width: 40vw;
-    height: 10vh;
-    background-color: #FF8080;
-    border-radius: 50px;
-    justify-content: center;
-    align-items: center;
+    font-size: 50px;
 }
 
 .divider {
     width: 80%;
     margin: 1vh auto;
     border-bottom: 3px solid white;
-}
-
-#time_measurement {
-    width: 10%;
-    margin: auto;
-}
-
-#time_measurement:hover {
-    background-color: aquamarine;
 }
