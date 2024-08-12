@@ -57,19 +57,14 @@ hours_until_end = Math.ceil(((school_end - today) / (86400000/60)))
 
 school_time = [days_until_end, weeks_until_end, months_until_end, hours_until_end]
 
-console.log(weeks_until_end)
-console.log(summer_weeks)
-
 closest_holidays = Array.from(holidays.keys()).sort(function (a, b) {  return a - b;  }); // sorts holiday dates from closest to farthest
 
 let has_one = false;
 let holiday_one = '';
 let hoilday_two = '';
-console.log(holiday_one)
 
 for (h of closest_holidays) { // really terrible code
   if (today > h) { // if holiday has past
-    console.log('past')
   } else if (has_one == false) {
     holiday_one = h.toDateString();
     holiday_one += ` - ${holidays.get(h)}`
